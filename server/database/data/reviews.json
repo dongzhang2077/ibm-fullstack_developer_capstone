@@ -549,6 +549,72 @@
       "car_make": "Cadillac",
       "car_model": "DeVille",
       "car_year": 1995
+    },
+    {
+      "name": "dong",
+      "dealership": "1",
+      "review": "Excellent Dealship, highly recommended!",
+      "purchase": true,
+      "purchase_date": "2025-12-02",
+      "car_make": "Audi",
+      "car_model": "A6",
+      "car_year": "2025",
+      "id": 51
+    },
+    {
+      "name": "dong",
+      "dealership": "1",
+      "review": "good",
+      "purchase": true,
+      "purchase_date": "2025-12-02",
+      "car_make": "Toyota",
+      "car_model": "Camry",
+      "car_year": "2025",
+      "id": 52
+    },
+    {
+      "name": "dong",
+      "dealership": "1",
+      "review": "excellent",
+      "purchase": true,
+      "purchase_date": "2025-12-02",
+      "car_make": "Kia",
+      "car_model": "Cerato",
+      "car_year": "2025",
+      "id": 53
+    },
+    {
+      "car_make": "Toyota",
+      "car_model": "Camry",
+      "purchase": true,
+      "car_year": 2022,
+      "review": "Test review for debugging",
+      "name": "Test User",
+      "dealership": 5,
+      "purchase_date": "12/02/2025",
+      "id": 54
+    },
+    {
+      "name": "dong",
+      "dealership": "1",
+      "review": "good",
+      "purchase": true,
+      "purchase_date": "2025-12-02",
+      "car_make": "Kia",
+      "car_model": "Cerato",
+      "car_year": "2025",
+      "id": 55
+    },
+    {
+      "name": "dong",
+      "dealership": 2,
+      "review": "Excellent!!!",
+      "purchase": true,
+      "purchase_date": "2025-12-02",
+      "car_make": "Kia",
+      "car_model": "Cerato",
+      "car_year": 2025,
+      "id": 56
     }
   ]
 }

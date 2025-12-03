@@ -96,10 +96,15 @@ def get_dealer_reviews(request, dealer_id):
     if(dealer_id):
         endpoint = "/fetchReviews/dealer/"+str(dealer_id)
         reviews = get_request(endpoint)
+        if reviews is None:
+            return JsonResponse({"status":500,"message":"Unable to fetch reviews from backend"})
         for review_detail in reviews:
             response = analyze_review_sentiments(review_detail['review'])
             print(response)
-            review_detail['sentiment'] = response['sentiment']
+            if response:
+                review_detail['sentiment'] = response.get('sentiment', 'neutral')
+            else:
+                review_detail['sentiment'] = 'neutral'
         return JsonResponse({"status":200,"reviews":reviews})
     else:
         return JsonResponse({"status":400,"message":"Bad Request"})

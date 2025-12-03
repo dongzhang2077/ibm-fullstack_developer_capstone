@@ -16,6 +16,8 @@ services:
     image: nodeapp
     ports:
       - 3030:3030
+    volumes:
+      - ./data:/data
     depends_on: 
       - mongo_db
 
