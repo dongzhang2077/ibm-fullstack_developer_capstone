@@ -70,11 +70,23 @@
    kubectl logs <pod-name>
    ```
 
-8. **Expose service (if needed)**
+8. **Access the application (IBM Skills Lab)**
+   
+   In IBM Skills Network Lab, use port-forwarding to access the application:
    ```bash
-   kubectl expose deployment dealership --type=NodePort --port=8000
-   kubectl get services
+   # Terminal 1: Forward Django application
+   kubectl port-forward deployment.apps/dealership 8000:8000
    ```
+   
+   If sentiment analyzer is deployed in Kubernetes:
+   ```bash
+   # Terminal 2: Forward sentiment analyzer (optional, only if needed externally)
+   kubectl port-forward deployment.apps/sentiment-analyzer 5000:5000
+   ```
+   
+   Then access the application at: `http://localhost:8000`
+   
+   **Note**: Port-forward commands are blocking - keep the terminal open while using the app.
 
 ## Additional Services Needed
 
@@ -92,8 +104,9 @@ The Django deployment now includes:
 The sentiment analyzer is accessed via Kubernetes internal service name `sentiment-analyzer`, not localhost.
 
 ## Testing
-- Get external IP: `kubectl get service dealership`
-- Access at: http://<EXTERNAL-IP>:8000
+- Use port-forward: `kubectl port-forward deployment.apps/dealership 8000:8000`
+- Access at: http://localhost:8000
+- Keep the terminal running while testing
 
 ## Important Notes
 - All Docker images must be pushed to IBM Container Registry
