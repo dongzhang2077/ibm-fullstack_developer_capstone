@@ -6,13 +6,14 @@
 - MongoDB: database for dealerships/reviews
 - Node.js Express API: port 3030
 
-### 2. Django Backend (already have Dockerfile & deployment.yaml)
+### 2. Django Backend (✅ have Dockerfile & deployment.yaml)
 - Port: 8000
-- Image: us.icr.io/sn-labs-dongzhang2077/dealership:latest
+- Image: us.icr.io/sn-labs-windyheratz5/dealership:latest
 
-### 3. Sentiment Analyzer (have Dockerfile)
+### 3. Sentiment Analyzer (✅ have Dockerfile & deployment.yaml)
 - Port: 5000
-- Flask application
+- Flask application with NLTK
+- Image: us.icr.io/sn-labs-windyheratz5/sentiment-analyzer:latest
 
 ### 4. React Frontend
 - Already built in frontend/build
@@ -44,19 +45,32 @@
    Replace `sn-labs-dongzhang2077` with your actual namespace in:
    - server/deployment.yaml (line 29)
 
-5. **Deploy to Kubernetes**
+4. **Deploy to Kubernetes**
    ```bash
    kubectl apply -f deployment.yaml
    ```
 
-6. **Check deployment**
+5. **Build and push Sentiment Analyzer image**
+   ```bash
+   cd djangoapp/microservices
+   docker build -t us.icr.io/$MY_NAMESPACE/sentiment-analyzer:latest .
+   docker push us.icr.io/$MY_NAMESPACE/sentiment-analyzer:latest
+   ```
+
+6. **Deploy Sentiment Analyzer**
+   ```bash
+   kubectl apply -f deployment.yaml
+   cd ../..
+   ```
+
+7. **Check deployment**
    ```bash
    kubectl get pods
    kubectl get services
    kubectl logs <pod-name>
    ```
 
-7. **Expose service (if needed)**
+8. **Expose service (if needed)**
    ```bash
    kubectl expose deployment dealership --type=NodePort --port=8000
    kubectl get services
@@ -69,23 +83,13 @@ You'll need to create deployment files for:
 - MongoDB (database)
 - Node.js API (connects to MongoDB)
 
-### Sentiment Analyzer Deployment
-Build and deploy the sentiment analyzer:
-```bash
-cd djangoapp/microservices
-docker build -t us.icr.io/$MY_NAMESPACE/sentiment:latest .
-docker push us.icr.io/$MY_NAMESPACE/sentiment:latest
-```
+## Environment Variables
 
-## Environment Variables to Update
+The Django deployment now includes:
+- **backend_url**: `http://localhost:3030` (Node.js API)
+- **sentiment_analyzer_url**: `http://sentiment-analyzer:5000/` (Kubernetes service name)
 
-1. **server/djangoapp/.env**
-   - backend_url: Node.js service URL
-   - sentiment_analyzer_url: Sentiment service URL
-
-2. **Connection strings**
-   - MongoDB connection in Node.js
-   - Service-to-service communication uses Kubernetes service names
+The sentiment analyzer is accessed via Kubernetes internal service name `sentiment-analyzer`, not localhost.
 
 ## Testing
 - Get external IP: `kubectl get service dealership`
