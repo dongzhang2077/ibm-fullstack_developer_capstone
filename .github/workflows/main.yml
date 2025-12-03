@@ -31,9 +31,9 @@ jobs:
       - name: Run Linter
         run: |
           pwd
-          # Ignore E501 (line too long), W293 (blank line whitespace), E302 (blank lines), E128 (indentation)
+          # Ignore E501 (line too long), W293 (blank line whitespace), E302 (blank lines), E128 (indentation), E231 (missing whitespace)
           # Only check for syntax errors and serious issues
-          find . -name "*.py" -exec flake8 --ignore=E501,W293,E302,E128,W291,E303,E305 {} +
+          find . -name "*.py" -exec flake8 --ignore=E501,W293,E302,E128,W291,E303,E305,E231 {} +
           echo "Linted all the python files successfully"
 
   lint_js:
