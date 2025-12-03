@@ -15,6 +15,9 @@ spec:
       labels:
         app: mongodb
     spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: mongodb
         image: mongo:5.0
@@ -30,6 +33,13 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
 
 ---
 apiVersion: v1
@@ -65,6 +75,11 @@ spec:
       labels:
         app: nodejs-api
     spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      imagePullSecrets:
+        - name: icr
       containers:
       - name: nodejs-api
         image: us.icr.io/sn-labs-windyheratz5/nodejs-api:latest
@@ -83,8 +98,13 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "300m"
-      imagePullSecrets:
-        - name: icr
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
 
 ---
 apiVersion: v1
