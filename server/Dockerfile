@@ -29,11 +29,15 @@ RUN npm install && npm run build
 # Go back to app directory
 WORKDIR $APP
 
+# Create directory for database and set permissions
+RUN mkdir -p /app/data && \
+    chmod 777 /app/data && \
+    chmod +x /app/entrypoint.sh
+
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/bin/bash","/app/entrypoint.sh"]
 CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "djangoproj.wsgi"]

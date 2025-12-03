@@ -36,6 +36,8 @@ spec:
               value: "http://localhost:3030"
             - name: sentiment_analyzer_url
               value: "http://sentiment-analyzer:5000/"
+            - name: DB_PATH
+              value: "/app/data/db.sqlite3"
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
