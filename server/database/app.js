@@ -9,8 +9,12 @@ app.use(cors());
 app.use(express.json());
 
 // Use /data path for Docker volume mount
-const reviews_file = fs.existsSync("/data/reviews.json") ? "/data/reviews.json" : "data/reviews.json";
-const dealerships_file = fs.existsSync("/data/dealerships.json") ? "/data/dealerships.json" : "data/dealerships.json";
+const reviews_file = fs.existsSync("/data/reviews.json")
+  ? "/data/reviews.json"
+  : "data/reviews.json";
+const dealerships_file = fs.existsSync("/data/dealerships.json")
+  ? "/data/dealerships.json"
+  : "data/dealerships.json";
 
 // Helper function to read reviews from file
 const getReviewsData = () => {
@@ -78,7 +82,10 @@ app.post("/insert_review", (req, res) => {
     const allReviews = reviews_data.reviews || reviews_data;
     // Add an ID if not present
     if (!newReview.id) {
-      newReview.id = allReviews.length > 0 ? Math.max(...allReviews.map((r) => r.id)) + 1 : 1;
+      newReview.id =
+        allReviews.length > 0
+          ? Math.max(...allReviews.map((r) => r.id)) + 1
+          : 1;
     }
     allReviews.push(newReview);
     // Save back to the data structure

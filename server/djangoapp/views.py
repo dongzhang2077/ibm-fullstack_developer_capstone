@@ -94,19 +94,14 @@ def get_dealer_reviews(request, dealer_id):
         endpoint = "/fetchReviews/dealer/" + str(dealer_id)
         reviews = get_request(endpoint)
         if reviews is None:
-            return JsonResponse({
-                "status": 500,
-                "message": "Unable to fetch reviews from backend"
-            })
-        for review_detail in reviews:
-            response = analyze_review_sentiments(
-                review_detail["review"]
+            return JsonResponse(
+                {"status": 500, "message": "Unable to fetch reviews from backend"}
             )
+        for review_detail in reviews:
+            response = analyze_review_sentiments(review_detail["review"])
             print(response)
             if response:
-                review_detail["sentiment"] = response.get(
-                    "sentiment", "neutral"
-                )
+                review_detail["sentiment"] = response.get("sentiment", "neutral")
             else:
                 review_detail["sentiment"] = "neutral"
         return JsonResponse({"status": 200, "reviews": reviews})
@@ -132,14 +127,9 @@ def add_review(request):
             post_review(data)
             return JsonResponse({"status": 200})
         except Exception:
-            return JsonResponse({
-                "status": 401,
-                "message": "Error in posting review"
-            })
+            return JsonResponse({"status": 401, "message": "Error in posting review"})
     else:
-        return JsonResponse(
-            {"status": 403, "message": "Unauthorized"}
-        )
+        return JsonResponse({"status": 403, "message": "Unauthorized"})
 
 
 def get_cars(request):
@@ -150,8 +140,5 @@ def get_cars(request):
     car_models = CarModel.objects.select_related("car_make")
     cars = []
     for car_model in car_models:
-        cars.append({
-            "CarModel": car_model.name,
-            "CarMake": car_model.car_make.name
-        })
+        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
     return JsonResponse({"CarModels": cars})
