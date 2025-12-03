@@ -33,7 +33,7 @@ spec:
               protocol: TCP
           env:
             - name: backend_url
-              value: "http://localhost:3030"
+              value: "http://nodejs-api:3030"
             - name: sentiment_analyzer_url
               value: "http://sentiment-analyzer:5000/"
             - name: DB_PATH
